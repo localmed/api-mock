@@ -1,0 +1,62 @@
+#!/usr/bin/env node
+var optimist = require('optimist');
+var parsePackageJson = require('../lib/parse-package-json');
+var path = require('path');
+var contractor = require('../lib/contractor');
+
+var version = parsePackageJson(path.join(__dirname, '../package.json'));
+
+options = {
+  port: {
+    alias: "p",
+    description: "Set which port contractor should listen on.\n",
+    'default': 3000
+  },
+  help: {
+    description: "Show usage information.\n"
+  },
+  version: {
+    description: "Show version number.\n"
+  }
+}
+
+var argv = optimist
+    .usage("contractor <path to blueprint>  [OPTIONS]"
+     + "\n\nExample: \n  " + "contractor ./apiary.md --port 3000")
+    .options(options)
+    .wrap(80)
+    .argv;
+
+if (argv.help == true) {
+  optimist.showHelp(fn=console.error);
+  process.exit(0);
+}
+
+if (argv.version == true) {
+  console.log(version);
+  process.exit(0);
+}
+
+if (argv._[0] == undefined) {
+  console.error("Error: Must specify path to blueprint file.");
+  console.error("\n")
+  optimist.showHelp(fn=console.error);
+  process.exit(1);
+}
+
+configuration = {
+  'blueprintPath': argv._[0],
+  'options': argv
+}
+
+process.on( 'SIGINT', function() {
+  process.exit(0);
+});
+
+try {
+  contractor(configuration);
+  console.log('Listening on port ' + configuration.options.port)
+} catch(e) {
+  console.error(e + '\n' + e.stack);
+  process.exit(1);
+}

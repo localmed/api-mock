@@ -1,0 +1,5 @@
+#!/bin/sh
+if [ -d "src/" ]; then
+  rm -fr lib/
+  node_modules/.bin/coffee -b -c -o lib/ src/
+fi

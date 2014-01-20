@@ -1,0 +1,36 @@
+{
+  "name": "contractor",
+  "version": "0.0.1",
+  "description": "A mock server generated from your API Blueprint.",
+  "author": "Evan Cordell <evan@localmed.com>",
+  "main": "bin/contractor",
+  "scripts": {
+    "test": "scripts/test",
+    "build": "scripts/build",
+    "prepublish": "scripts/prepublish"
+  },
+  "dependencies": {
+    "protagonist": "~0.6.0",
+    "optimist": "~0.6.0",
+    "express": "~3.4.7"
+  },
+  "devDependencies": {
+    "coffee-script": "1.6.3"
+    },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/localmed/contractor"
+  },
+  "keywords": [
+    "api",
+    "test",
+    "testing",
+    "documenation",
+    "integration",
+    "acceptance",
+    "server",
+    "stub"
+  ],
+  "license": "MIT",
+  "engine": "node >= 0.10.18"
+}
