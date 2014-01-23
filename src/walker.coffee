@@ -20,11 +20,8 @@ walker = (app, resourceGroups) ->
         action['headers'] = inheritHeaders action['headers'], resource['headers']
         action['parameters'] = inheritParameters action['parameters'], resource['parameters']
 
-        # uris are specified with {params} that need to be populated
-        uriResult = expandUriTemplateWithParameters resource['uriTemplate'], action['parameters']
-
-        if uriResult['uri']?
-          path = uriResult['uri'].split('?')[0]
+        if resource['uriTemplate']?
+          path = resource['uriTemplate'].split('?')[0].replace("}", "").replace("{", ":")
 
           # the tests are generated from the example responses from the ast
           for example in action['examples']
