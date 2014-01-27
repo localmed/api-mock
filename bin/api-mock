@@ -2,14 +2,14 @@
 var optimist = require('optimist');
 var parsePackageJson = require('../lib/parse-package-json');
 var path = require('path');
-var contractor = require('../lib/contractor');
+var apiMock = require('../lib/api-mock');
 
 var version = parsePackageJson(path.join(__dirname, '../package.json'));
 
 options = {
   port: {
     alias: "p",
-    description: "Set which port contractor should listen on.\n",
+    description: "Set which port api-mock should listen on.\n",
     'default': 3000
   },
   help: {
@@ -21,8 +21,8 @@ options = {
 }
 
 var argv = optimist
-    .usage("contractor <path to blueprint>  [OPTIONS]"
-     + "\n\nExample: \n  " + "contractor ./apiary.md --port 3000")
+    .usage("Usage: \n  " + "api-mock <path to blueprint>  [OPTIONS]"
+     + "\n\nExample: \n  " + "api-mock ./apiary.md --port 3000")
     .options(options)
     .wrap(80)
     .argv;
@@ -54,7 +54,7 @@ process.on( 'SIGINT', function() {
 });
 
 try {
-  contractor(configuration);
+  apiMock(configuration);
   console.log('Listening on port ' + configuration.options.port)
 } catch(e) {
   console.error(e + '\n' + e.stack);

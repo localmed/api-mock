@@ -5,7 +5,7 @@ express = require 'express'
 
 walker = require './walker'
 
-contractor = (configuration) ->
+apiMock = (configuration) ->
     protagonist = configuration['protagonist'] if configuration['protagonist']
     blueprintPath = configuration['blueprintPath'] if configuration['blueprintPath']
 
@@ -34,4 +34,4 @@ contractor = (configuration) ->
       # start server
       app.listen( if configuration?.options?.port? then configuration.options.port else 3000)
 
-module.exports = contractor
+module.exports = apiMock
