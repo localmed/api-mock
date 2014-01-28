@@ -21,7 +21,7 @@ walker = (app, resourceGroups) ->
         action['parameters'] = inheritParameters action['parameters'], resource['parameters']
 
         if resource['uriTemplate']?
-          path = resource['uriTemplate'].split('?')[0].replace("}", "").replace("{", ":")
+          path = resource['uriTemplate'].split('?')[0].replace(new RegExp("}","g"), "").replace(new RegExp("{","g"), ":")
 
           # the tests are generated from the example responses from the ast
           for example in action['examples']
