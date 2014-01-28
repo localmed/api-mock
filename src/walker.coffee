@@ -3,6 +3,8 @@ inheritParameters = require './inherit-parameters'
 expandUriTemplateWithParameters = require './expand-uri-template-with-parameters'
 exampleToHttpPayloadPair = require './example-to-http-payload-pair'
 
+ut = require 'uri-template'
+
 walker = (app, resourceGroups) ->
 
   sendResponse = (response) ->
@@ -11,6 +13,8 @@ walker = (app, resourceGroups) ->
             res.setHeader header, value['value']
       res.setHeader 'Content-Length', Buffer.byteLength(response.body)
       res.send response.status, response.body
+
+  responses = []
 
   for group in resourceGroups
     for resource in group['resources']
@@ -23,22 +27,40 @@ walker = (app, resourceGroups) ->
         if resource['uriTemplate']?
           path = resource['uriTemplate'].split('{?')[0].replace(new RegExp("}","g"), "").replace(new RegExp("{","g"), ":")
 
-          # the tests are generated from the example responses from the ast
+          # the routes are generated
           for example in action['examples']
             payload = exampleToHttpPayloadPair example, action['headers']
             response = payload['pair']['response']
 
-            switch action.method
-              when 'GET'
-                app.get path, sendResponse(response)
-              when 'POST'
-                app.post path, sendResponse(response)
-              when 'PUT'
-                app.put path, sendResponse(response)
-              when 'DELETE'
-                app.delete path, sendResponse(response)
-              when 'PATCH'
-                app.patch path, sendResponse(response)
+            responses.push {
+              method: action.method
+              path: path
+              response: response
+            }
+
+  #sort routes
+  responses.sort (a,b) ->
+    if (a.path > b.path)
+       return -1
+    if (a.path < b.path)
+      return 1
+    return 0
+
+  console.log responses.map (response) ->
+    response.path
+
+  for response in responses
+    switch response.method
+      when 'GET'
+        app.get response.path, sendResponse(response.response)
+      when 'POST'
+        app.post response.path, sendResponse(response.response)
+      when 'PUT'
+        app.put response.path, sendResponse(response.response)
+      when 'DELETE'
+        app.delete response.path, sendResponse(response.response)
+      when 'PATCH'
+        app.patch response.path, sendResponse(response.response)
 
 
 
