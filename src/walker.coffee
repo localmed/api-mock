@@ -46,9 +46,6 @@ walker = (app, resourceGroups) ->
       return 1
     return 0
 
-  console.log responses.map (response) ->
-    response.path
-
   for response in responses
     switch response.method
       when 'GET'
