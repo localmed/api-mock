@@ -2,7 +2,7 @@
 var optimist = require('optimist');
 var parsePackageJson = require('../lib/parse-package-json');
 var path = require('path');
-var apiMock = require('../lib/api-mock');
+var ApiMock = require('../lib/api-mock');
 
 var version = parsePackageJson(path.join(__dirname, '../package.json'));
 
@@ -54,7 +54,8 @@ process.on( 'SIGINT', function() {
 });
 
 try {
-  apiMock(configuration);
+  apiMock = new ApiMock(configuration);
+  apiMock.run();
   console.log('Listening on port ' + configuration.options.port)
 } catch(e) {
   console.error(e + '\n' + e.stack);

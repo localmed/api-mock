@@ -5,15 +5,22 @@ express = require 'express'
 
 walker = require './walker'
 
-apiMock = (configuration) ->
-    protagonist = configuration['protagonist'] if configuration['protagonist']
-    blueprintPath = configuration['blueprintPath'] if configuration['blueprintPath']
+class ApiMock
+  constructor: (config) ->
+    protagonist = config['protagonist'] if config['protagonist']
+    express = config['express'] if config['express']
+    @blueprintPath = config['blueprintPath'] if config['blueprintPath']
 
-    if not blueprintPath?
+    if not @blueprintPath?
       throw new Error "No blueprint path provided."
 
+    @configuration = config
+    @app = express()
+
+  run: () ->
+    app = @app
     try
-      data = fs.readFileSync blueprintPath, 'utf8'
+      data = fs.readFileSync @blueprintPath, 'utf8'
     catch e
       throw e
 
@@ -23,8 +30,6 @@ apiMock = (configuration) ->
       if error? then throw error
       ast_json = result.ast
 
-      app = express()
-
       # Walk AST, add routes to app
       try
         walker app, ast_json['resourceGroups']
@@ -32,6 +37,6 @@ apiMock = (configuration) ->
         throw error
 
       # start server
-      app.listen( if configuration?.options?.port? then configuration.options.port else 3000)
+      app.listen( if @configuration?.options?.port? then @configuration.options.port else 3000)
 
-module.exports = apiMock
+module.exports = ApiMock
