@@ -17,10 +17,20 @@ API-Mock requires node.js, and npm.
       api-mock ./apiary.md --port 3000
     
     Options:
-      --port, -p  Set which port api-mock should listen on.
+      --port, -p        Set which port api-mock should listen on.
                                                                      [default: 3000]
-      --help      Show usage information.
-    
-      --version   Show version number.
+      --ssl-enable, -s  Enable SSL support.
+                                                                    [default: false]
+      --ssl-port        Set which port api-mock should listen on for SSL traffic.
+                                                                     [default: 3080]
+      --ssl-host        Set hostname for SSL server.
+
+      --ssl-cert        Set path for SSL certificate file.
+                                                           [default: "./server.crt"]
+      --ssl-key         Set path for SSL key file.
+                                                           [default: "./server.key"]
+      --help            Show usage information.
+
+      --version         Show version number.
 
 
