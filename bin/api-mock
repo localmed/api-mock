@@ -30,6 +30,7 @@ var argv = optimist
     .usage("Usage: \n  " + "api-mock <path to blueprint>  [OPTIONS]"
      + "\n\nExample: \n  " + "api-mock ./apiary.md --port 3000")
     .options(options)
+    .boolean('cors-disable')
     .wrap(80)
     .argv;
 
@@ -61,7 +62,7 @@ process.on( 'SIGINT', function() {
 
 try {
   apiMock = new ApiMock(configuration);
-  if(configuration.options['cors-disable'] === false || configuration.options['cors-disable'].match(/^(false|no|n|f|0|off)$/i)) {
+  if(!configuration.options['cors-disable']) {
     corsSupport = new CorsSupport(apiMock.app);
   }
 
