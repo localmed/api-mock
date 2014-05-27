@@ -83,10 +83,6 @@ process.on( 'SIGINT', function() {
 
 try {
   apiMock = new ApiMock(configuration);
-  if(!configuration.options['cors-disable']) {
-    corsSupport = new CorsSupport(apiMock.app);
-  }
-
   apiMock.run();
   console.log('Listening on port ' + configuration.options.port)
 } catch(e) {
