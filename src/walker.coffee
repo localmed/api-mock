@@ -7,8 +7,19 @@ ut = require 'uri-template'
 
 walker = (app, resourceGroups) ->
 
-  sendResponse = (response) ->
-    buildResponse = (req,res) ->
+  sendResponse = (responses) ->
+    (req,res) ->
+
+      # default response
+      response = responses[Object.keys(responses)[0]]
+
+      # try to find matching response based on PREFER header
+      if req.headers['prefer']
+        if responses[req.headers['prefer']]
+          response = responses[req.headers['prefer']]
+        else
+          console.warn("[#{req.url}] Preferrered response #{req.headers['prefer']} not found. Falling back to #{response.status}")
+
       for header, value of response.headers
             res.setHeader header, value['value']
       res.setHeader 'Content-Length', Buffer.byteLength(response.body)
@@ -30,12 +41,17 @@ walker = (app, resourceGroups) ->
           # the routes are generated
           for example in action['examples']
             payload = exampleToHttpPayloadPair example, action['headers']
-            response = payload['pair']['response']
+
+            for warning in payload['warnings']
+              console.warn("[#{path}] #{warning}")
+
+            for error in payload['errors']
+              console.error("[#{path}] #{error}")
 
             responses.push {
               method: action.method
               path: path
-              response: response
+              responses: payload['pair']['responses']
             }
 
   #sort routes
@@ -49,15 +65,15 @@ walker = (app, resourceGroups) ->
   for response in responses
     switch response.method
       when 'GET'
-        app.get response.path, sendResponse(response.response)
+        app.get response.path, sendResponse(response.responses)
       when 'POST'
-        app.post response.path, sendResponse(response.response)
+        app.post response.path, sendResponse(response.responses)
       when 'PUT'
-        app.put response.path, sendResponse(response.response)
+        app.put response.path, sendResponse(response.responses)
       when 'DELETE'
-        app.delete response.path, sendResponse(response.response)
+        app.delete response.path, sendResponse(response.responses)
       when 'PATCH'
-        app.patch response.path, sendResponse(response.response)
+        app.patch response.path, sendResponse(response.responses)
 
 
 

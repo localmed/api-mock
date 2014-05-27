@@ -30,3 +30,6 @@ npm-debug.log
 node_modules
 
 /lib/
+
+# IDEs
+.idea
