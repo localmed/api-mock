@@ -29,8 +29,12 @@ API-Mock requires node.js, and npm.
                                                            [default: "./server.crt"]
       --ssl-key         Set path for SSL key file.
                                                            [default: "./server.key"]
-      --help            Show usage information.
+      --port, -p          Set which port api-mock should listen on.
+                                                                     [default: 3000]
+      --cors-disable, -c  Disable CORS headers.
+                                                                    [default: false]
+      --help              Show usage information.
 
-      --version         Show version number.
+      --version           Show version number.
 
 

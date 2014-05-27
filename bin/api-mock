@@ -3,6 +3,7 @@ var optimist = require('optimist');
 var parsePackageJson = require('../lib/parse-package-json');
 var path = require('path');
 var ApiMock = require('../lib/api-mock');
+var CorsSupport = require('../lib/cors-support');
 
 var version = parsePackageJson(path.join(__dirname, '../package.json'));
 
@@ -32,6 +33,11 @@ options = {
       description: "Set path for SSL key file.\n",
       'default': './server.key'
   },
+  'cors-disable': {
+    alias: "c",
+    description: "Disable CORS headers.\n",
+    'default': false
+  },
   help: {
     description: "Show usage information.\n"
   },
@@ -44,6 +50,7 @@ var argv = optimist
     .usage("Usage: \n  " + "api-mock <path to blueprint>  [OPTIONS]"
      + "\n\nExample: \n  " + "api-mock ./apiary.md --port 3000")
     .options(options)
+    .boolean('cors-disable')
     .wrap(80)
     .boolean('ssl-enable')
     .argv;
@@ -76,6 +83,10 @@ process.on( 'SIGINT', function() {
 
 try {
   apiMock = new ApiMock(configuration);
+  if(!configuration.options['cors-disable']) {
+    corsSupport = new CorsSupport(apiMock.app);
+  }
+
   apiMock.run();
   console.log('Listening on port ' + configuration.options.port)
 } catch(e) {
