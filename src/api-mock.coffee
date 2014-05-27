@@ -20,13 +20,12 @@ class ApiMock
 
     if configuration.options['ssl-enable']
       sslSupport = new SslSupport(
-        @app, {
+        @app,
             port: configuration.options['ssl-port'],
             host: configuration.options['ssl-host'],
             cert: configuration.options['ssl-cert'],
             key: configuration.options['ssl-key']
-        }
-    )
+      )
 
     if !configuration.options['cors-disable']
       corsSupport = new CorsSupport @app
