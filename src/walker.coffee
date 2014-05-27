@@ -8,7 +8,7 @@ ut = require 'uri-template'
 walker = (app, resourceGroups) ->
 
   sendResponse = (responses) ->
-    (req,res) ->
+    (req, res) ->
 
       # default response
       response = responses[Object.keys(responses)[0]]

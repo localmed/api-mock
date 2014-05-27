@@ -4,6 +4,7 @@ protagonist = require 'protagonist'
 express = require 'express'
 
 walker = require './walker'
+SslSupport = require './ssl-support'
 
 class ApiMock
   constructor: (config) ->
@@ -16,6 +17,16 @@ class ApiMock
 
     @configuration = config
     @app = express()
+
+    if configuration.options['ssl-enable']
+      sslSupport = new SslSupport(
+        @app, {
+            port: configuration.options['ssl-port'],
+            host: configuration.options['ssl-host'],
+            cert: configuration.options['ssl-cert'],
+            key: configuration.options['ssl-key']
+        }
+    )
 
   run: () ->
     app = @app
