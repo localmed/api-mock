@@ -5,6 +5,7 @@ express = require 'express'
 
 walker = require './walker'
 SslSupport = require './ssl-support'
+CorsSupport = require './cors-support'
 
 class ApiMock
   constructor: (config) ->
