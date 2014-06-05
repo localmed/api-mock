@@ -19,16 +19,16 @@ class ApiMock
     @configuration = config
     @app = express()
 
-    if configuration.options['ssl-enable']
+    if @configuration.options['ssl-enable']
       sslSupport = new SslSupport(
         @app,
-            port: configuration.options['ssl-port'],
-            host: configuration.options['ssl-host'],
-            cert: configuration.options['ssl-cert'],
-            key: configuration.options['ssl-key']
+            port: @configuration.options['ssl-port'],
+            host: @configuration.options['ssl-host'],
+            cert: @configuration.options['ssl-cert'],
+            key: @configuration.options['ssl-key']
       )
 
-    if !configuration.options['cors-disable']
+    if !@configuration.options['cors-disable']
       corsSupport = new CorsSupport @app
 
   run: () ->
@@ -40,7 +40,7 @@ class ApiMock
 
     # Get JSON representation of the blueprint file
     ast_json = ""
-    protagonist.parse data,  (error, result) ->
+    protagonist.parse data,  (error, result) =>
       if error? then throw error
       ast_json = result.ast
 
