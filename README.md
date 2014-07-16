@@ -10,6 +10,16 @@ API-Mock requires node.js, and npm.
 
     npm install -g api-mock
 
+## Installing from source
+
+If you wish to install from source, you will need to build the library files manually (only the CoffeeScript source is committed to the repository). To do this, simply run:
+
+    scripts/build
+
+or 
+    
+    npm build
+
 # Usage
 
     Usage:
