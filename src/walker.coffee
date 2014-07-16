@@ -21,7 +21,9 @@ walker = (app, resourceGroups) ->
           console.warn("[#{req.url}] Preferrered response #{req.headers['prefer']} not found. Falling back to #{response.status}")
 
       for header, value of response.headers
-            res.setHeader header, value['value']
+        headerName = value['name']
+        headerValue = value['value']
+        res.setHeader headerName, headerValue
       res.setHeader 'Content-Length', Buffer.byteLength(response.body)
       res.send response.status, response.body
 
