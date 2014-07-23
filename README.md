@@ -48,3 +48,14 @@ or
       --version           Show version number.
 
 
+## Prefer headers
+
+You can set both `prefer` and `prefer-request` headers to control which example gets returned to the
+client. 
+
+```
+Prefer: 400
+Prefer-Request: valid
+```
+
+Will return a response with the name `400` from a request named `valid`

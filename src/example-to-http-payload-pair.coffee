@@ -27,6 +27,7 @@ exampleToHttpPayloadPair = (example, inheritingHeaders = {}) ->
         body: ""
         headers: {}
 
+    request['name'] = selectedRequest['name']
     request['body'] = selectedRequest['body']
     request['headers'] = inheritHeaders selectedRequest['headers'], inheritingHeaders
 

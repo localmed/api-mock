@@ -7,8 +7,18 @@ ut = require 'uri-template'
 
 walker = (app, resourceGroups) ->
 
+  checkRequest = (request) ->
+    (req, res, next) ->
+      if req.headers['prefer-request'] && req.headers['prefer-request'] != request.name
+        res.locals.shouldSkip = true
+      else
+        res.locals.shouldSkip = false
+      next()
+
   sendResponse = (responses) ->
-    (req, res) ->
+    (req, res, next) ->
+      
+      return next() if res.locals.shouldSkip
 
       # default response
       response = responses[Object.keys(responses)[0]]
@@ -26,6 +36,7 @@ walker = (app, resourceGroups) ->
         res.setHeader headerName, headerValue
       res.setHeader 'Content-Length', Buffer.byteLength(response.body)
       res.send response.status, response.body
+      res.end
 
   responses = []
 
@@ -53,6 +64,7 @@ walker = (app, resourceGroups) ->
             responses.push {
               method: action.method
               path: path
+              request: payload['pair']['request']
               responses: payload['pair']['responses']
             }
 
@@ -65,6 +77,7 @@ walker = (app, resourceGroups) ->
     return 0
 
   for response in responses
+    app.all response.path, checkRequest(response.request)
     switch response.method
       when 'GET'
         app.get response.path, sendResponse(response.responses)
