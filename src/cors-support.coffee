@@ -1,3 +1,5 @@
+winston = require 'winston'
+
 class CorsSupport
   constructor: (app) ->
 
@@ -19,11 +21,9 @@ class CorsSupport
         else
           next()
 
-    console.log(
-      "Enabled Cross-Origin-Resource-Sharing (CORS)\n" + \
-      "\tAllow-Origin: #{options.origin}\n" + \
-      "\tAllow-Methods: #{options.methods}\n" + \
-      "\tAllow-Headers: #{options.headers}"
-    )
+    winston.info "Enabled Cross-Origin-Resource-Sharing (CORS)"
+    winston.info "\tAllow-Origin: #{options.origin}"
+    winston.info "\tAllow-Methods: #{options.methods}"
+    winston.info "\tAllow-Headers: #{options.headers}"
 
 module.exports = CorsSupport

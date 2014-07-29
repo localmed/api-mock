@@ -1,0 +1,354 @@
+<!DOCTYPE html><html><head><title>Coverage</title><script>
+
+headings = [];
+
+onload = function(){
+  headings = document.querySelectorAll('h2');
+};
+
+onscroll = function(e){
+  var heading = find(window.scrollY);
+  if (!heading) return;
+  var links = document.querySelectorAll('#menu a')
+    , link;
+
+  for (var i = 0, len = links.length; i < len; ++i) {
+    link = links[i];
+    link.className = link.getAttribute('href') == '#' + heading.id
+      ? 'active'
+      : '';
+  }
+};
+
+function find(y) {
+  var i = headings.length
+    , heading;
+
+  while (i--) {
+    heading = headings[i];
+    if (y >= heading.offsetTop) {
+      return heading;
+    }
+  }
+}
+</script>
+<style>
+
+body {
+  font: 14px/1.6 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 0;
+  color: #2C2C2C;
+  border-top: 2px solid #ddd;
+}
+
+#coverage {
+  padding: 60px;
+}
+
+h1 a {
+  color: inherit;
+  font-weight: inherit;
+}
+
+h1 a:hover {
+  text-decoration: none;
+}
+
+.onload h1 {
+  opacity: 1;
+}
+
+h2 {
+  width: 80%;
+  margin-top: 80px;
+  margin-bottom: 0;
+  font-weight: 100;
+  letter-spacing: 1px;
+  border-bottom: 1px solid #eee;
+}
+
+a {
+  color: #8A6343;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+ul {
+  margin-top: 20px;
+  padding: 0 15px;
+  width: 100%;
+}
+
+ul li {
+  float: left;
+  width: 40%;
+  margin-top: 5px;
+  margin-right: 60px;
+  list-style: none;
+  border-bottom: 1px solid #eee;
+  padding: 5px 0;
+  font-size: 12px;
+}
+
+ul::after {
+  content: '.';
+  height: 0;
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+code {
+  font: 12px monaco, monospace;
+}
+
+pre {
+  margin: 30px;
+  padding: 30px;
+  border: 1px solid #eee;
+  border-bottom-color: #ddd;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-shadow: inset 0 0 10px #eee;
+  -moz-box-shadow: inset 0 0 10px #eee;
+  box-shadow: inset 0 0 10px #eee;
+  overflow-x: auto;
+}
+
+img {
+  margin: 30px;
+  padding: 1px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 3px 10px #dedede, 0 1px 5px #888;
+  -moz-box-shadow: 0 3px 10px #dedede, 0 1px 5px #888;
+  box-shadow: 0 3px 10px #dedede, 0 1px 5px #888;
+  max-width: 100%;
+}
+
+footer {
+  background: #eee;
+  width: 100%;
+  padding: 50px 0;
+  text-align: right;
+  border-top: 1px solid #ddd;
+}
+
+footer span {
+  display: block;
+  margin-right: 30px;
+  color: #888;
+  font-size: 12px;
+}
+
+#menu {
+  position: fixed;
+  font-size: 12px;
+  overflow-y: auto;
+  top: 0;
+  right: 0;
+  margin: 0;
+  height: 100%;
+  padding: 15px 0;
+  text-align: right;
+  border-left: 1px solid #eee;
+  -moz-box-shadow: 0 0 2px #888
+     , inset 5px 0 20px rgba(0,0,0,.5)
+     , inset 5px 0 3px rgba(0,0,0,.3);
+  -webkit-box-shadow: 0 0 2px #888
+     , inset 5px 0 20px rgba(0,0,0,.5)
+     , inset 5px 0 3px rgba(0,0,0,.3);
+  box-shadow: 0 0 2px #888
+     , inset 5px 0 20px rgba(0,0,0,.5)
+     , inset 5px 0 3px rgba(0,0,0,.3);
+  -webkit-font-smoothing: antialiased;
+  background: url("data:image/png;base64,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");
+}
+
+#menu::after {
+  display: block;
+  content: '';
+  padding-top: 80px;
+}
+
+#logo {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(255,255,255,.1);
+  font-size: 11px;
+  display: block;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  -webkit-box-shadow: 0 0 3px rgba(0,0,0,.2);
+  -moz-box-shadow: 0 0 3px rgba(0,0,0,.2);
+  box-shadow: 0 0 3px rgba(0,0,0,.2);
+  color: inherit;
+}
+
+#menu li a {
+  display: block;
+  color: white;
+  padding: 0 35px 0 25px;
+  -webkit-transition: background 300ms;
+  -moz-transition: background 300ms;
+}
+
+#menu li {
+  position: relative;
+  list-style: none;
+}
+
+#menu a:hover,
+#menu a.active {
+  text-decoration: none;
+  background: rgba(255,255,255,.1);
+}
+
+#menu li:hover .cov {
+  opacity: 1;
+}
+
+#menu li .dirname {
+  opacity: .60;
+  padding-right: 2px;
+}
+
+#menu li .basename {
+  opacity: 1;
+}
+
+#menu .cov {
+  background: rgba(0,0,0,.4);
+  position: absolute;
+  top: 0;
+  right: 8px;
+  font-size: 9px;
+  opacity: .6;
+  text-align: left;
+  width: 17px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  padding: 2px 3px;
+  text-align: center;
+}
+
+#stats:nth-child(2n) {
+  display: inline-block;
+  margin-top: 15px;
+  border: 1px solid #eee;
+  padding: 10px;
+  -webkit-box-shadow: inset 0 0 2px #eee;
+  -moz-box-shadow: inset 0 0 2px #eee;
+  box-shadow: inset 0 0 2px #eee;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+#stats div {
+  float: left;
+  padding: 0 5px;
+}
+
+#stats::after {
+  display: block;
+  content: '';
+  clear: both;
+}
+
+#stats .sloc::after {
+  content: ' SLOC';
+  color: #b6b6b6;
+}
+
+#stats .percentage::after {
+  content: ' coverage';
+  color: #b6b6b6;
+}
+
+#stats .hits,
+#stats .misses {
+  display: none;
+}
+
+.high {
+  color: #00d4b4;
+}
+.medium {
+  color: #e87d0d;
+}
+.low {
+  color: #d4081a;
+}
+.terrible {
+  color: #d4081a;
+  font-weight: bold;
+}
+
+table {
+  width: 80%;
+  margin-top: 10px;
+  border-collapse: collapse;
+  border: 1px solid #cbcbcb;
+  color: #363636;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+table thead {
+  display: none;
+}
+
+table td.line,
+table td.hits {
+  width: 20px;
+  background: #eaeaea;
+  text-align: center;
+  font-size: 11px;
+  padding: 0 10px;
+  color: #949494;
+}
+
+table td.hits {
+  width: 10px;
+  padding: 2px 5px;
+  color: rgba(0,0,0,.2);
+  background: #f0f0f0;
+}
+
+tr.miss td.line,
+tr.miss td.hits {
+  background: #e6c3c7;
+}
+
+tr.miss td {
+  background: #f8d5d8;
+}
+
+td.source {
+  padding-left: 15px;
+  line-height: 15px;
+  white-space: pre;
+  font: 12px monaco, monospace;
+}
+
+code .comment { color: #ddd }
+code .init { color: #2F6FAD }
+code .string { color: #5890AD }
+code .keyword { color: #8A6343 }
+code .number { color: #2F6FAD }
+</style></head><body><div id="coverage"><h1 id="overview">Coverage</h1><div id="menu"><li><a href="#overview">overview</a></li><li><span class="cov high">100</span><a href="#src/api-mock.coffee"><span class="dirname">src/</span><span class="basename">api-mock.coffee</span></a></li><li><span class="cov high">100</span><a href="#src/example-to-http-payload-pair.coffee"><span class="dirname">src/</span><span class="basename">example-to-http-payload-pair.coffee</span></a></li><li><span class="cov high">100</span><a href="#src/expand-uri-template-with-parameters.coffee"><span class="dirname">src/</span><span class="basename">expand-uri-template-with-parameters.coffee</span></a></li><li><span class="cov high">100</span><a href="#src/inherit-headers.coffee"><span class="dirname">src/</span><span class="basename">inherit-headers.coffee</span></a></li><li><span class="cov high">100</span><a href="#src/inherit-parameters.coffee"><span class="dirname">src/</span><span class="basename">inherit-parameters.coffee</span></a></li><li><span class="cov high">100</span><a href="#src/walker.coffee"><span class="dirname">src/</span><span class="basename">walker.coffee</span></a></li><a id="logo" href="http://visionmedia.github.io/mocha/">m</a></div><div id="stats" class="high"><div class="percentage">100%</div><div class="sloc">163</div><div class="hits">163</div><div class="misses">0</div></div><div id="files"><div class="file"><h2 id="src/api-mock.coffee">src/api-mock.coffee</h2><div id="stats" class="high"><div class="percentage">100%</div><div class="sloc">33</div><div class="hits">33</div><div class="misses">0</div></div><table id="source"><thead><tr><th>Line</th><th>Hits</th><th>Source</th></tr></thead><tbody><tr class="hit"><td class="line">1</td><td class="hits">1</td><td class="source">fs = require 'fs'</td></tr><tr><td class="line">2</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">3</td><td class="hits">1</td><td class="source">protagonist = require 'protagonist'</td></tr><tr class="hit"><td class="line">4</td><td class="hits">1</td><td class="source">express = require 'express'</td></tr><tr class="hit"><td class="line">5</td><td class="hits">1</td><td class="source">walker = require './walker'</td></tr><tr class="hit"><td class="line">6</td><td class="hits">1</td><td class="source">SslSupport = require './ssl-support'</td></tr><tr class="hit"><td class="line">7</td><td class="hits">1</td><td class="source">CorsSupport = require './cors-support'</td></tr><tr><td class="line">8</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">9</td><td class="hits">1</td><td class="source">class ApiMock</td></tr><tr class="hit"><td class="line">10</td><td class="hits">1</td><td class="source">  constructor: (config) -&gt;</td></tr><tr class="hit"><td class="line">11</td><td class="hits">10</td><td class="source">    protagonist = config['protagonist'] if config['protagonist']</td></tr><tr class="hit"><td class="line">12</td><td class="hits">10</td><td class="source">    express = config['express'] if config['express']</td></tr><tr class="hit"><td class="line">13</td><td class="hits">10</td><td class="source">    @blueprintPath = config['blueprintPath'] if config['blueprintPath']</td></tr><tr><td class="line">14</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">15</td><td class="hits">10</td><td class="source">    if not @blueprintPath?</td></tr><tr class="hit"><td class="line">16</td><td class="hits">1</td><td class="source">      throw new Error &quot;No blueprint path provided.&quot;</td></tr><tr><td class="line">17</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">18</td><td class="hits">9</td><td class="source">    @configuration = config</td></tr><tr class="hit"><td class="line">19</td><td class="hits">9</td><td class="source">    @app = express()</td></tr><tr><td class="line">20</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">21</td><td class="hits">9</td><td class="source">    if @configuration.options['ssl-enable']</td></tr><tr class="hit"><td class="line">22</td><td class="hits">1</td><td class="source">      sslSupport = new SslSupport(</td></tr><tr><td class="line">23</td><td class="hits"></td><td class="source">        @app,</td></tr><tr><td class="line">24</td><td class="hits"></td><td class="source">            port: @configuration.options['ssl-port'],</td></tr><tr><td class="line">25</td><td class="hits"></td><td class="source">            host: @configuration.options['ssl-host'],</td></tr><tr><td class="line">26</td><td class="hits"></td><td class="source">            cert: @configuration.options['ssl-cert'],</td></tr><tr><td class="line">27</td><td class="hits"></td><td class="source">            key: @configuration.options['ssl-key']</td></tr><tr><td class="line">28</td><td class="hits"></td><td class="source">      )</td></tr><tr><td class="line">29</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">30</td><td class="hits">9</td><td class="source">    if !@configuration.options['cors-disable']</td></tr><tr class="hit"><td class="line">31</td><td class="hits">8</td><td class="source">      corsSupport = new CorsSupport @app</td></tr><tr><td class="line">32</td><td class="hits"></td><td class="source"> </td></tr><tr><td class="line">33</td><td class="hits"></td><td class="source">  run: () -&gt;</td></tr><tr class="hit"><td class="line">34</td><td class="hits">6</td><td class="source">    app = @app</td></tr><tr><td class="line">35</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">36</td><td class="hits">6</td><td class="source">    try</td></tr><tr class="hit"><td class="line">37</td><td class="hits">6</td><td class="source">      data = fs.readFileSync @blueprintPath, 'utf8'</td></tr><tr><td class="line">38</td><td class="hits"></td><td class="source">    catch e</td></tr><tr class="hit"><td class="line">39</td><td class="hits">1</td><td class="source">      throw e</td></tr><tr><td class="line">40</td><td class="hits"></td><td class="source"> </td></tr><tr><td class="line">41</td><td class="hits"></td><td class="source">    # Get JSON representation of the blueprint file</td></tr><tr class="hit"><td class="line">42</td><td class="hits">5</td><td class="source">    ast_json = &quot;&quot;</td></tr><tr class="hit"><td class="line">43</td><td class="hits">5</td><td class="source">    protagonist.parse data,  (error, result) =&gt;</td></tr><tr class="hit"><td class="line">44</td><td class="hits">5</td><td class="source">      if error? then throw error</td></tr><tr class="hit"><td class="line">45</td><td class="hits">4</td><td class="source">      ast_json = result.ast</td></tr><tr><td class="line">46</td><td class="hits"></td><td class="source"> </td></tr><tr><td class="line">47</td><td class="hits"></td><td class="source">      # Walk AST, add routes to app</td></tr><tr class="hit"><td class="line">48</td><td class="hits">4</td><td class="source">      try</td></tr><tr class="hit"><td class="line">49</td><td class="hits">4</td><td class="source">        walker app, ast_json['resourceGroups']</td></tr><tr><td class="line">50</td><td class="hits"></td><td class="source">      catch error</td></tr><tr class="hit"><td class="line">51</td><td class="hits">1</td><td class="source">        throw error</td></tr><tr><td class="line">52</td><td class="hits"></td><td class="source"> </td></tr><tr><td class="line">53</td><td class="hits"></td><td class="source">      # start server</td></tr><tr class="hit"><td class="line">54</td><td class="hits">3</td><td class="source">      try</td></tr><tr class="hit"><td class="line">55</td><td class="hits">3</td><td class="source">        app.listen( if @configuration?.options?.port? then @configuration.options.port else 3000 )</td></tr><tr><td class="line">56</td><td class="hits"></td><td class="source">      catch error</td></tr><tr><td class="line">57</td><td class="hits"></td><td class="source"> </td></tr><tr><td class="line">58</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">59</td><td class="hits">1</td><td class="source">module.exports = ApiMock</td></tr><tr><td class="line">60</td><td class="hits"></td><td class="source"> </td></tr></tbody></table></div><div class="file"><h2 id="src/example-to-http-payload-pair.coffee">src/example-to-http-payload-pair.coffee</h2><div id="stats" class="high"><div class="percentage">100%</div><div class="sloc">28</div><div class="hits">28</div><div class="misses">0</div></div><table id="source"><thead><tr><th>Line</th><th>Hits</th><th>Source</th></tr></thead><tbody><tr class="hit"><td class="line">1</td><td class="hits">1</td><td class="source">inheritHeaders = require './inherit-headers'</td></tr><tr><td class="line">2</td><td class="hits"></td><td class="source"> </td></tr><tr><td class="line">3</td><td class="hits"></td><td class="source"># Transforms API Blueprint example to an array of Expected</td></tr><tr><td class="line">4</td><td class="hits"></td><td class="source"># HTTP Request and Response body and headers</td></tr><tr class="hit"><td class="line">5</td><td class="hits">1</td><td class="source">exampleToHttpPayloadPair = (example, inheritingHeaders = {}) -&gt;</td></tr><tr><td class="line">6</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">7</td><td class="hits">7</td><td class="source">  result =</td></tr><tr><td class="line">8</td><td class="hits"></td><td class="source">    warnings: []</td></tr><tr><td class="line">9</td><td class="hits"></td><td class="source">    errors: []</td></tr><tr><td class="line">10</td><td class="hits"></td><td class="source">    pair: {}</td></tr><tr><td class="line">11</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">12</td><td class="hits">7</td><td class="source">  request = {}</td></tr><tr class="hit"><td class="line">13</td><td class="hits">7</td><td class="source">  responses = {}</td></tr><tr><td class="line">14</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">15</td><td class="hits">7</td><td class="source">  if example['requests'].length &gt; 1</td></tr><tr class="hit"><td class="line">16</td><td class="hits">1</td><td class="source">    text = &quot;Multiple requests, using first.&quot;</td></tr><tr class="hit"><td class="line">17</td><td class="hits">1</td><td class="source">    result['warnings'].push text </td></tr><tr><td class="line">18</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">19</td><td class="hits">7</td><td class="source">  if example['responses'].length == 0</td></tr><tr class="hit"><td class="line">20</td><td class="hits">1</td><td class="source">    text = &quot;No response available. Can't create HTTP transaction.&quot;</td></tr><tr class="hit"><td class="line">21</td><td class="hits">1</td><td class="source">    result['warnings'].push text</td></tr><tr><td class="line">22</td><td class="hits"></td><td class="source">  else</td></tr><tr class="hit"><td class="line">23</td><td class="hits">6</td><td class="source">    selectedRequest = example['requests'][0]</td></tr><tr><td class="line">24</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">25</td><td class="hits">6</td><td class="source">    if example['requests'].length == 0</td></tr><tr class="hit"><td class="line">26</td><td class="hits">1</td><td class="source">      selectedRequest =</td></tr><tr><td class="line">27</td><td class="hits"></td><td class="source">        body: &quot;&quot;</td></tr><tr><td class="line">28</td><td class="hits"></td><td class="source">        headers: {}</td></tr><tr><td class="line">29</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">30</td><td class="hits">6</td><td class="source">    request['body'] = selectedRequest['body']</td></tr><tr class="hit"><td class="line">31</td><td class="hits">6</td><td class="source">    request['headers'] = inheritHeaders selectedRequest['headers'], inheritingHeaders</td></tr><tr><td class="line">32</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">33</td><td class="hits">6</td><td class="source">    for selectedResponse in example['responses']</td></tr><tr class="hit"><td class="line">34</td><td class="hits">7</td><td class="source">      response = {}</td></tr><tr><td class="line">35</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">36</td><td class="hits">7</td><td class="source">      response['body'] = selectedResponse['body']</td></tr><tr class="hit"><td class="line">37</td><td class="hits">7</td><td class="source">      response['headers'] = inheritHeaders selectedResponse['headers'], inheritingHeaders</td></tr><tr class="hit"><td class="line">38</td><td class="hits">7</td><td class="source">      response['status'] = selectedResponse['name']</td></tr><tr class="hit"><td class="line">39</td><td class="hits">7</td><td class="source">      if selectedResponse['schema'] != &quot;&quot;</td></tr><tr class="hit"><td class="line">40</td><td class="hits">6</td><td class="source">        response['schema'] = selectedResponse['schema']</td></tr><tr><td class="line">41</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">42</td><td class="hits">7</td><td class="source">      responses[response['status']] = response</td></tr><tr><td class="line">43</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">44</td><td class="hits">6</td><td class="source">    result['pair']['request'] = request</td></tr><tr class="hit"><td class="line">45</td><td class="hits">6</td><td class="source">    result['pair']['responses'] = responses</td></tr><tr><td class="line">46</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">47</td><td class="hits">7</td><td class="source">  return result</td></tr><tr><td class="line">48</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">49</td><td class="hits">1</td><td class="source">module.exports = exampleToHttpPayloadPair</td></tr><tr><td class="line">50</td><td class="hits"></td><td class="source"> </td></tr><tr><td class="line">51</td><td class="hits"></td><td class="source"> </td></tr></tbody></table></div><div class="file"><h2 id="src/expand-uri-template-with-parameters.coffee">src/expand-uri-template-with-parameters.coffee</h2><div id="stats" class="high"><div class="percentage">100%</div><div class="sloc">41</div><div class="hits">41</div><div class="misses">0</div></div><table id="source"><thead><tr><th>Line</th><th>Hits</th><th>Source</th></tr></thead><tbody><tr class="hit"><td class="line">1</td><td class="hits">1</td><td class="source">ut = require 'uri-template'</td></tr><tr><td class="line">2</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">3</td><td class="hits">1</td><td class="source">expandUriTemplateWithParameters = (uriTemplate, parameters) -&gt;</td></tr><tr class="hit"><td class="line">4</td><td class="hits">13</td><td class="source">  result =</td></tr><tr><td class="line">5</td><td class="hits"></td><td class="source">    errors: []</td></tr><tr><td class="line">6</td><td class="hits"></td><td class="source">    warnings: []</td></tr><tr><td class="line">7</td><td class="hits"></td><td class="source">    uri: null</td></tr><tr class="hit"><td class="line">8</td><td class="hits">13</td><td class="source">  try  </td></tr><tr class="hit"><td class="line">9</td><td class="hits">13</td><td class="source">    parsed = ut.parse uriTemplate</td></tr><tr><td class="line">10</td><td class="hits"></td><td class="source">  catch e</td></tr><tr class="hit"><td class="line">11</td><td class="hits">1</td><td class="source">    text = 'Failed to parse URI template'</td></tr><tr class="hit"><td class="line">12</td><td class="hits">1</td><td class="source">    result['errors'].push text</td></tr><tr class="hit"><td class="line">13</td><td class="hits">1</td><td class="source">    return result</td></tr><tr><td class="line">14</td><td class="hits"></td><td class="source"> </td></tr><tr><td class="line">15</td><td class="hits"></td><td class="source">  # get parameters from expression object</td></tr><tr class="hit"><td class="line">16</td><td class="hits">12</td><td class="source">  uriParameters = []</td></tr><tr class="hit"><td class="line">17</td><td class="hits">12</td><td class="source">  for expression in parsed['expressions']</td></tr><tr class="hit"><td class="line">18</td><td class="hits">10</td><td class="source">    for param in expression['params']</td></tr><tr class="hit"><td class="line">19</td><td class="hits">10</td><td class="source">      uriParameters.push param['name']</td></tr><tr><td class="line">20</td><td class="hits"></td><td class="source"> </td></tr><tr><td class="line">21</td><td class="hits"></td><td class="source">  # check if all parameters have an expression in URI</td></tr><tr class="hit"><td class="line">22</td><td class="hits">12</td><td class="source">  for parameter in Object.keys(parameters)</td></tr><tr class="hit"><td class="line">23</td><td class="hits">11</td><td class="source">    if uriParameters.indexOf(parameter) == -1</td></tr><tr class="hit"><td class="line">24</td><td class="hits">2</td><td class="source">      text = &quot;URI template doesn\'t contain expression for parameter&quot; + \</td></tr><tr><td class="line">25</td><td class="hits"></td><td class="source">             &quot; '&quot; + parameter + &quot;'&quot;</td></tr><tr class="hit"><td class="line">26</td><td class="hits">2</td><td class="source">      result['warnings'].push text</td></tr><tr><td class="line">27</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">28</td><td class="hits">12</td><td class="source">  if parsed['expressions'].length == 0</td></tr><tr class="hit"><td class="line">29</td><td class="hits">2</td><td class="source">    result['uri'] = uriTemplate</td></tr><tr><td class="line">30</td><td class="hits"></td><td class="source">  else</td></tr><tr class="hit"><td class="line">31</td><td class="hits">10</td><td class="source">    ambigous = false</td></tr><tr><td class="line">32</td><td class="hits"></td><td class="source">    </td></tr><tr class="hit"><td class="line">33</td><td class="hits">10</td><td class="source">    for uriParameter in uriParameters</td></tr><tr class="hit"><td class="line">34</td><td class="hits">10</td><td class="source">      if Object.keys(parameters).indexOf(uriParameter) == -1</td></tr><tr class="hit"><td class="line">35</td><td class="hits">1</td><td class="source">        ambigous = true</td></tr><tr class="hit"><td class="line">36</td><td class="hits">1</td><td class="source">        text = &quot;Ambigous URI template. &quot; + \</td></tr><tr><td class="line">37</td><td class="hits"></td><td class="source">               &quot;Parameter not defined:&quot; + \</td></tr><tr><td class="line">38</td><td class="hits"></td><td class="source">               &quot;'&quot; + uriParameter + &quot;'&quot;</td></tr><tr class="hit"><td class="line">39</td><td class="hits">1</td><td class="source">        result['warnings'].push text</td></tr><tr><td class="line">40</td><td class="hits"></td><td class="source">    </td></tr><tr class="hit"><td class="line">41</td><td class="hits">10</td><td class="source">    if ambigous == false</td></tr><tr class="hit"><td class="line">42</td><td class="hits">9</td><td class="source">      toExpand = {}</td></tr><tr class="hit"><td class="line">43</td><td class="hits">9</td><td class="source">      for uriParameter in uriParameters</td></tr><tr class="hit"><td class="line">44</td><td class="hits">9</td><td class="source">        param = parameters[uriParameter]</td></tr><tr class="hit"><td class="line">45</td><td class="hits">9</td><td class="source">        if param['required'] == true</td></tr><tr class="hit"><td class="line">46</td><td class="hits">5</td><td class="source">          if param['example'] == undefined</td></tr><tr class="hit"><td class="line">47</td><td class="hits">1</td><td class="source">            ambigous = true</td></tr><tr class="hit"><td class="line">48</td><td class="hits">1</td><td class="source">            text = &quot;Ambigous URI template. &quot; + \</td></tr><tr><td class="line">49</td><td class="hits"></td><td class="source">                   &quot;No example value for parameter:&quot; + \</td></tr><tr><td class="line">50</td><td class="hits"></td><td class="source">                   &quot;'&quot; + uriParameter + &quot;'&quot;</td></tr><tr class="hit"><td class="line">51</td><td class="hits">1</td><td class="source">            result['warnings'].push text</td></tr><tr><td class="line">52</td><td class="hits"></td><td class="source">          else</td></tr><tr class="hit"><td class="line">53</td><td class="hits">4</td><td class="source">            toExpand[uriParameter] = param['example']</td></tr><tr><td class="line">54</td><td class="hits"></td><td class="source">        else</td></tr><tr class="hit"><td class="line">55</td><td class="hits">4</td><td class="source">          if param['example'] != undefined</td></tr><tr class="hit"><td class="line">56</td><td class="hits">2</td><td class="source">            toExpand[uriParameter] = param['example']          </td></tr><tr><td class="line">57</td><td class="hits"></td><td class="source">          else if param['default'] != undefined</td></tr><tr class="hit"><td class="line">58</td><td class="hits">1</td><td class="source">            toExpand[uriParameter] = param['default']</td></tr><tr><td class="line">59</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">60</td><td class="hits">10</td><td class="source">    if ambigous == false</td></tr><tr class="hit"><td class="line">61</td><td class="hits">8</td><td class="source">      result['uri'] = parsed.expand toExpand</td></tr><tr><td class="line">62</td><td class="hits"></td><td class="source">      </td></tr><tr class="hit"><td class="line">63</td><td class="hits">12</td><td class="source">  return result</td></tr><tr><td class="line">64</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">65</td><td class="hits">1</td><td class="source">module.exports = expandUriTemplateWithParameters</td></tr></tbody></table></div><div class="file"><h2 id="src/inherit-headers.coffee">src/inherit-headers.coffee</h2><div id="stats" class="high"><div class="percentage">100%</div><div class="sloc">6</div><div class="hits">6</div><div class="misses">0</div></div><table id="source"><thead><tr><th>Line</th><th>Hits</th><th>Source</th></tr></thead><tbody><tr class="hit"><td class="line">1</td><td class="hits">1</td><td class="source">inheritHeaders = (actualHeaders, inheritingHeaders) -&gt; </td></tr><tr class="hit"><td class="line">2</td><td class="hits">39</td><td class="source">  for name, params of inheritingHeaders</td></tr><tr class="hit"><td class="line">3</td><td class="hits">2</td><td class="source">    if actualHeaders[name] == undefined</td></tr><tr class="hit"><td class="line">4</td><td class="hits">1</td><td class="source">      actualHeaders[name] = params</td></tr><tr><td class="line">5</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">6</td><td class="hits">39</td><td class="source">  return actualHeaders</td></tr><tr><td class="line">7</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">8</td><td class="hits">1</td><td class="source">module.exports = inheritHeaders</td></tr></tbody></table></div><div class="file"><h2 id="src/inherit-parameters.coffee">src/inherit-parameters.coffee</h2><div id="stats" class="high"><div class="percentage">100%</div><div class="sloc">6</div><div class="hits">6</div><div class="misses">0</div></div><table id="source"><thead><tr><th>Line</th><th>Hits</th><th>Source</th></tr></thead><tbody><tr class="hit"><td class="line">1</td><td class="hits">1</td><td class="source">inheritParameters = (actualParameters, inheritingParameters) -&gt; </td></tr><tr class="hit"><td class="line">2</td><td class="hits">26</td><td class="source">  for name, params of inheritingParameters</td></tr><tr class="hit"><td class="line">3</td><td class="hits">2</td><td class="source">    if actualParameters[name] == undefined</td></tr><tr class="hit"><td class="line">4</td><td class="hits">1</td><td class="source">      actualParameters[name] = params</td></tr><tr><td class="line">5</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">6</td><td class="hits">26</td><td class="source">  return actualParameters</td></tr><tr><td class="line">7</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">8</td><td class="hits">1</td><td class="source">module.exports = inheritParameters</td></tr></tbody></table></div><div class="file"><h2 id="src/walker.coffee">src/walker.coffee</h2><div id="stats" class="high"><div class="percentage">100%</div><div class="sloc">49</div><div class="hits">49</div><div class="misses">0</div></div><table id="source"><thead><tr><th>Line</th><th>Hits</th><th>Source</th></tr></thead><tbody><tr class="hit"><td class="line">1</td><td class="hits">1</td><td class="source">inheritHeaders = require './inherit-headers'</td></tr><tr class="hit"><td class="line">2</td><td class="hits">1</td><td class="source">inheritParameters = require './inherit-parameters'</td></tr><tr class="hit"><td class="line">3</td><td class="hits">1</td><td class="source">expandUriTemplateWithParameters = require './expand-uri-template-with-parameters'</td></tr><tr class="hit"><td class="line">4</td><td class="hits">1</td><td class="source">exampleToHttpPayloadPair = require './example-to-http-payload-pair'</td></tr><tr><td class="line">5</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">6</td><td class="hits">1</td><td class="source">ut = require 'uri-template'</td></tr><tr class="hit"><td class="line">7</td><td class="hits">1</td><td class="source">winston = require 'winston'</td></tr><tr><td class="line">8</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">9</td><td class="hits">1</td><td class="source">walker = (app, resourceGroups) -&gt;</td></tr><tr><td class="line">10</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">11</td><td class="hits">5</td><td class="source">  sendResponse = (responses) -&gt;</td></tr><tr class="hit"><td class="line">12</td><td class="hits">25</td><td class="source">    (req, res) -&gt;</td></tr><tr><td class="line">13</td><td class="hits"></td><td class="source">      # default response</td></tr><tr class="hit"><td class="line">14</td><td class="hits">3</td><td class="source">      response = responses[Object.keys(responses)[0]]</td></tr><tr><td class="line">15</td><td class="hits"></td><td class="source"> </td></tr><tr><td class="line">16</td><td class="hits"></td><td class="source">      # try to find matching response based on PREFER header</td></tr><tr class="hit"><td class="line">17</td><td class="hits">3</td><td class="source">      if 'prefer' of req.headers</td></tr><tr class="hit"><td class="line">18</td><td class="hits">2</td><td class="source">        if req.headers['prefer'] of responses</td></tr><tr class="hit"><td class="line">19</td><td class="hits">1</td><td class="source">          response = responses[req.headers['prefer']]</td></tr><tr><td class="line">20</td><td class="hits"></td><td class="source">        else</td></tr><tr class="hit"><td class="line">21</td><td class="hits">1</td><td class="source">          winston.warn(&quot;[#{req.url}] Preferrered response #{req.headers['prefer']} not found. Falling back to #{response.status}&quot;)</td></tr><tr><td class="line">22</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">23</td><td class="hits">3</td><td class="source">      for header, value of response.headers</td></tr><tr class="hit"><td class="line">24</td><td class="hits">3</td><td class="source">        headerName = value['name']</td></tr><tr class="hit"><td class="line">25</td><td class="hits">3</td><td class="source">        headerValue = value['value']</td></tr><tr class="hit"><td class="line">26</td><td class="hits">3</td><td class="source">        res.setHeader headerName, headerValue</td></tr><tr class="hit"><td class="line">27</td><td class="hits">3</td><td class="source">      res.setHeader 'Content-Length', Buffer.byteLength(response.body)</td></tr><tr class="hit"><td class="line">28</td><td class="hits">3</td><td class="source">      res.send response.status, response.body</td></tr><tr><td class="line">29</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">30</td><td class="hits">5</td><td class="source">  responses = []</td></tr><tr><td class="line">31</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">32</td><td class="hits">5</td><td class="source">  for group in resourceGroups</td></tr><tr class="hit"><td class="line">33</td><td class="hits">5</td><td class="source">    for resource in group['resources']</td></tr><tr class="hit"><td class="line">34</td><td class="hits">25</td><td class="source">      for action  in resource['actions']</td></tr><tr><td class="line">35</td><td class="hits"></td><td class="source"> </td></tr><tr><td class="line">36</td><td class="hits"></td><td class="source">        # headers and parameters can be specified higher up in the ast and inherited</td></tr><tr class="hit"><td class="line">37</td><td class="hits">25</td><td class="source">        action['headers'] = inheritHeaders action['headers'], resource['headers']</td></tr><tr class="hit"><td class="line">38</td><td class="hits">25</td><td class="source">        action['parameters'] = inheritParameters action['parameters'], resource['parameters']</td></tr><tr><td class="line">39</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">40</td><td class="hits">25</td><td class="source">        if resource['uriTemplate']?</td></tr><tr><td class="line">41</td><td class="hits"></td><td class="source">          # removes query parameters, and converts uri template params into what express expects</td></tr><tr><td class="line">42</td><td class="hits"></td><td class="source">          # e.g. /templates/{templateId}/?status=good would become /templates/:templateId/</td></tr><tr><td class="line">43</td><td class="hits"></td><td class="source">          # TODO: replate with uri template processing</td></tr><tr class="hit"><td class="line">44</td><td class="hits">25</td><td class="source">          path = resource['uriTemplate'].split('{?')[0].replace(new RegExp(&quot;}&quot;,&quot;g&quot;), &quot;&quot;).replace(new RegExp(&quot;{&quot;,&quot;g&quot;), &quot;:&quot;)</td></tr><tr><td class="line">45</td><td class="hits"></td><td class="source"> </td></tr><tr><td class="line">46</td><td class="hits"></td><td class="source">          # the routes are generated</td></tr><tr class="hit"><td class="line">47</td><td class="hits">25</td><td class="source">          for example in action['examples']</td></tr><tr class="hit"><td class="line">48</td><td class="hits">25</td><td class="source">            payload = exampleToHttpPayloadPair example, action['headers']</td></tr><tr><td class="line">49</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">50</td><td class="hits">25</td><td class="source">            for warning in payload['warnings']</td></tr><tr class="hit"><td class="line">51</td><td class="hits">5</td><td class="source">              winston.warn(&quot;[#{path}] #{warning}&quot;)</td></tr><tr><td class="line">52</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">53</td><td class="hits">25</td><td class="source">            for error in payload['errors']</td></tr><tr class="hit"><td class="line">54</td><td class="hits">5</td><td class="source">              winston.error(&quot;[#{path}] #{error}&quot;)</td></tr><tr><td class="line">55</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">56</td><td class="hits">25</td><td class="source">            responses.push {</td></tr><tr><td class="line">57</td><td class="hits"></td><td class="source">              method: action.method</td></tr><tr><td class="line">58</td><td class="hits"></td><td class="source">              path: path</td></tr><tr><td class="line">59</td><td class="hits"></td><td class="source">              responses: payload['pair']['responses']</td></tr><tr><td class="line">60</td><td class="hits"></td><td class="source">            }</td></tr><tr><td class="line">61</td><td class="hits"></td><td class="source"> </td></tr><tr><td class="line">62</td><td class="hits"></td><td class="source">  #sort routes</td></tr><tr class="hit"><td class="line">63</td><td class="hits">5</td><td class="source">  responses.sort (a,b) -&gt;</td></tr><tr class="hit"><td class="line">64</td><td class="hits">30</td><td class="source">    if (a.path &gt; b.path)</td></tr><tr class="hit"><td class="line">65</td><td class="hits">10</td><td class="source">       return -1</td></tr><tr class="hit"><td class="line">66</td><td class="hits">20</td><td class="source">    if (a.path &lt; b.path)</td></tr><tr class="hit"><td class="line">67</td><td class="hits">10</td><td class="source">      return 1</td></tr><tr class="hit"><td class="line">68</td><td class="hits">10</td><td class="source">    return 0</td></tr><tr><td class="line">69</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">70</td><td class="hits">5</td><td class="source">  for response in responses</td></tr><tr class="hit"><td class="line">71</td><td class="hits">25</td><td class="source">    switch response.method</td></tr><tr><td class="line">72</td><td class="hits"></td><td class="source">      when 'GET'</td></tr><tr class="hit"><td class="line">73</td><td class="hits">5</td><td class="source">        app.get response.path, sendResponse(response.responses)</td></tr><tr><td class="line">74</td><td class="hits"></td><td class="source">      when 'POST'</td></tr><tr class="hit"><td class="line">75</td><td class="hits">5</td><td class="source">        app.post response.path, sendResponse(response.responses)</td></tr><tr><td class="line">76</td><td class="hits"></td><td class="source">      when 'PUT'</td></tr><tr class="hit"><td class="line">77</td><td class="hits">5</td><td class="source">        app.put response.path, sendResponse(response.responses)</td></tr><tr><td class="line">78</td><td class="hits"></td><td class="source">      when 'DELETE'</td></tr><tr class="hit"><td class="line">79</td><td class="hits">5</td><td class="source">        app.delete response.path, sendResponse(response.responses)</td></tr><tr><td class="line">80</td><td class="hits"></td><td class="source">      when 'PATCH'</td></tr><tr class="hit"><td class="line">81</td><td class="hits">5</td><td class="source">        app.patch response.path, sendResponse(response.responses)</td></tr><tr><td class="line">82</td><td class="hits"></td><td class="source"> </td></tr><tr><td class="line">83</td><td class="hits"></td><td class="source"> </td></tr><tr><td class="line">84</td><td class="hits"></td><td class="source"> </td></tr><tr class="hit"><td class="line">85</td><td class="hits">1</td><td class="source">module.exports = walker</td></tr><tr><td class="line">86</td><td class="hits"></td><td class="source"> </td></tr></tbody></table></div></div></div></body></html>
