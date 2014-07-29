@@ -2,7 +2,6 @@ fs = require 'fs'
 
 protagonist = require 'protagonist'
 express = require 'express'
-
 walker = require './walker'
 SslSupport = require './ssl-support'
 CorsSupport = require './cors-support'
@@ -33,6 +32,7 @@ class ApiMock
 
   run: () ->
     app = @app
+
     try
       data = fs.readFileSync @blueprintPath, 'utf8'
     catch e
@@ -51,6 +51,9 @@ class ApiMock
         throw error
 
       # start server
-      app.listen( if @configuration?.options?.port? then @configuration.options.port else 3000)
+      try
+        app.listen( if @configuration?.options?.port? then @configuration.options.port else 3000 )
+      catch error
+
 
 module.exports = ApiMock

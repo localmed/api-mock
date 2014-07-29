@@ -1,11 +1,15 @@
 #!/usr/bin/env node
 var optimist = require('optimist');
+var winston = require('winston');
+var defaultLogger = winston.defaultLogger;
 var parsePackageJson = require('../lib/parse-package-json');
 var path = require('path');
 var ApiMock = require('../lib/api-mock');
 var CorsSupport = require('../lib/cors-support');
 
 var version = parsePackageJson(path.join(__dirname, '../package.json'));
+
+winston.cli();
 
 options = {
   port: {
@@ -16,7 +20,8 @@ options = {
   'ssl-enable': {
     alias: "s",
     description: "Enable SSL support.\n",
-    'default': false
+    'default': false,
+    'boolean': true
   },
   'ssl-port': {
     description: "Set which port api-mock should listen on for SSL traffic.\n",
@@ -30,13 +35,20 @@ options = {
     'default': './server.crt'
   },
   'ssl-key': {
-      description: "Set path for SSL key file.\n",
-      'default': './server.key'
+    description: "Set path for SSL key file.\n",
+    'default': './server.key'
   },
   'cors-disable': {
     alias: "c",
     description: "Disable CORS headers.\n",
-    'default': false
+    'default': false,
+    'boolean': true
+  },
+  color: {
+    alias: "k",
+    description: "Colorize cli output.\n",
+    'default': true,
+    'boolean': true
   },
   help: {
     description: "Show usage information.\n"
@@ -50,13 +62,14 @@ var argv = optimist
     .usage("Usage: \n  " + "api-mock <path to blueprint>  [OPTIONS]"
      + "\n\nExample: \n  " + "api-mock ./apiary.md --port 3000")
     .options(options)
-    .boolean('cors-disable')
     .wrap(80)
-    .boolean('ssl-enable')
     .argv;
 
+
+winston.default.transports.console.colorize = argv.color;
+
 if (argv.help == true) {
-  optimist.showHelp(fn=console.error);
+  optimist.showHelp(fn=console.log);
   process.exit(0);
 }
 
@@ -66,9 +79,8 @@ if (argv.version == true) {
 }
 
 if (argv._[0] == undefined) {
-  console.error("Error: Must specify path to blueprint file.");
-  console.error("\n")
-  optimist.showHelp(fn=console.error);
+  winston.error("Must specify path to blueprint file.\n");
+  optimist.showHelp(fn=console.log);
   process.exit(1);
 }
 
@@ -81,11 +93,20 @@ process.on( 'SIGINT', function() {
   process.exit(0);
 });
 
+process.on('uncaughtException', function(err) {
+    if(err.errno === 'EADDRINUSE') {
+         winston.error('The specified port is being used by another process. Specify a different port with -p.');
+    } else {
+         winston.error(err + '\n' + err.stack);
+    }
+    process.exit(1);
+});
+
 try {
   apiMock = new ApiMock(configuration);
   apiMock.run();
-  console.log('Listening on port ' + configuration.options.port)
+  winston.info('Listening on port ' + configuration.options.port)
 } catch(e) {
-  console.error(e + '\n' + e.stack);
+  winston.error(e + '\n' + e.stack);
   process.exit(1);
 }

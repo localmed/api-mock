@@ -48,3 +48,18 @@ or
       --version           Show version number.
 
 
+## Contribution
+Contributions in the form of issues or pull requests are more than welcome! Make sure to follow Api-Mock [issues].
+
+### Pull Requests
+
+- Fork from the development branch
+- Write good, clean, readable code
+- Write tests for your contribution
+    + Run tests with `npm test`
+    + Other helper scripts available in `/scripts`
+    + Keep the [test coverage] high
+- Create a pull request
+
+[test coverage]: https://coveralls.io/r/localmed/api-mock?branch=master
+[issues]: https://github.com/localmed/api-mock/issues?state=open
