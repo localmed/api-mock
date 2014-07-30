@@ -46,28 +46,28 @@ waitAndKill = (cli, ms, callback) ->
       , ms)
 
 
-describe "Command Line Interface", ()->
+# describe "Command Line Interface", ()->
 
-  describe "when blueprint not found", (done) ->
-    before (done) ->
-      cmd = "./bin/api-mock ./test/fixtures/nonexistent_path.apib"
-      execCommand cmd, done
+#   describe "when blueprint not found", (done) ->
+#     before (done) ->
+#       cmd = "./bin/api-mock ./test/fixtures/nonexistent_path.apib"
+#       execCommand cmd, done
 
-    it 'should exit with status 1', () ->
-      assert.equal exitStatus, 1
+#     it 'should exit with status 1', () ->
+#       assert.equal exitStatus, 1
 
-    it 'should print error message to stderr', () ->
-      assert.include stderr, 'Error: ENOENT'
+#     it 'should print error message to stderr', () ->
+#       assert.include stderr, 'Error: ENOENT'
 
-  describe "when blueprint exists", () ->
+#   describe "when blueprint exists", () ->
 
-    before (done) ->
-      cmd = "./bin/api-mock ./test/fixtures/single-get.apib"
-      cli = cliForCommand cmd
-      waitAndKill(cli, 300, done)
+#     before (done) ->
+#       cmd = "./bin/api-mock ./test/fixtures/single-get.apib"
+#       cli = cliForCommand cmd
+#       waitAndKill(cli, 300, done)
 
-    it "should run the mock server on default port", () ->
-      assert.include stdout, '3000'
+#     it "should run the mock server on default port", () ->
+#       assert.include stdout, '3000'
 
-    it "should display CORS information", () ->
-      assert.include stdout, 'Enabled Cross-Origin-Resource-Sharing'
+#     it "should display CORS information", () ->
+#       assert.include stdout, 'Enabled Cross-Origin-Resource-Sharing'
