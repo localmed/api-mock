@@ -27,25 +27,27 @@ or
 
     Usage:
       api-mock <path to blueprint>  [OPTIONS]
-    
+
     Example:
       api-mock ./apiary.md --port 3000
-    
-    Options:
-      --port, -p        Set which port api-mock should listen on.
-                                                                     [default: 3000]
-      --ssl-enable, -s  Enable SSL support.
-                                                                    [default: false]
-      --ssl-port        Set which port api-mock should listen on for SSL traffic.
-                                                                     [default: 3080]
-      --ssl-host        Set hostname for SSL server.
 
-      --ssl-cert        Set path for SSL certificate file.
+    Options:
+      --port, -p          Set which port api-mock should listen on.
+                                                                     [default: 3000]
+      --ssl-enable, -s    Enable SSL support.
+                                                                    [default: false]
+      --ssl-port          Set which port api-mock should listen on for SSL traffic.
+                                                                     [default: 3080]
+      --ssl-host          Set hostname for SSL server.
+
+      --ssl-cert          Set path for SSL certificate file.
                                                            [default: "./server.crt"]
-      --ssl-key         Set path for SSL key file.
+      --ssl-key           Set path for SSL key file.
                                                            [default: "./server.key"]
       --cors-disable, -c  Disable CORS headers.
                                                                     [default: false]
+      --color, -k         Colorize cli output.
+                                                                     [default: true]
       --help              Show usage information.
 
       --version           Show version number.
