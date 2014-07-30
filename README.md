@@ -1,5 +1,8 @@
 # API-Mock 
 
+[![Build Status](https://travis-ci.org/localmed/api-mock.png?branch=master)](https://travis-ci.org/localmed/api-mock)
+[![Coverage Status](https://img.shields.io/coveralls/localmed/api-mock.svg)](https://coveralls.io/r/localmed/api-mock?branch=master)
+
 [![NPM](https://nodei.co/npm/api-mock.png?downloads=true)](https://nodei.co/npm/api-mock/)
 
 API-Mock is a [node.js](http://nodejs.org/) [npm](https://npmjs.org/) module that generates a mock server (express) from your API specification. Document your API in the [API blueprint](http://apiblueprint.org/) format, and API-Mock mocks your routes and sends the responses defined in the api spec.
