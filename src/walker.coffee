@@ -4,6 +4,7 @@ expandUriTemplateWithParameters = require './expand-uri-template-with-parameters
 exampleToHttpPayloadPair = require './example-to-http-payload-pair'
 
 ut = require 'uri-template'
+winston = require 'winston'
 
 walker = (app, resourceGroups) ->
 
@@ -24,11 +25,11 @@ walker = (app, resourceGroups) ->
       response = responses[Object.keys(responses)[0]]
 
       # try to find matching response based on PREFER header
-      if req.headers['prefer']
-        if responses[req.headers['prefer']]
+      if 'prefer' of req.headers
+        if req.headers['prefer'] of responses
           response = responses[req.headers['prefer']]
         else
-          console.warn("[#{req.url}] Preferrered response #{req.headers['prefer']} not found. Falling back to #{response.status}")
+          winston.warn("[#{req.url}] Preferrered response #{req.headers['prefer']} not found. Falling back to #{response.status}")
 
       for header, value of response.headers
         headerName = value['name']
@@ -49,6 +50,9 @@ walker = (app, resourceGroups) ->
         action['parameters'] = inheritParameters action['parameters'], resource['parameters']
 
         if resource['uriTemplate']?
+          # removes query parameters, and converts uri template params into what express expects
+          # e.g. /templates/{templateId}/?status=good would become /templates/:templateId/
+          # TODO: replate with uri template processing
           path = resource['uriTemplate'].split('{?')[0].replace(new RegExp("}","g"), "").replace(new RegExp("{","g"), ":")
 
           # the routes are generated
@@ -56,10 +60,10 @@ walker = (app, resourceGroups) ->
             payload = exampleToHttpPayloadPair example, action['headers']
 
             for warning in payload['warnings']
-              console.warn("[#{path}] #{warning}")
+              winston.warn("[#{path}] #{warning}")
 
             for error in payload['errors']
-              console.error("[#{path}] #{error}")
+              winston.error("[#{path}] #{error}")
 
             responses.push {
               method: action.method

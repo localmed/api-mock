@@ -1,5 +1,6 @@
 https = require 'https'
 fs = require 'fs'
+winston = require 'winston'
 
 class SslSupport
 
@@ -11,7 +12,7 @@ class SslSupport
 
     https.createServer(serverOptions, app).listen(options.port, options.host);
 
-    console.log('Listening on ' + options.host + ':' + options.port + ' (HTTPS)');
+    winston.info('Listening on ' + options.host + ':' + options.port + ' (HTTPS)');
 
 
 module.exports = SslSupport
