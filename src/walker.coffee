@@ -2,32 +2,14 @@ inheritHeaders = require './inherit-headers'
 inheritParameters = require './inherit-parameters'
 expandUriTemplateWithParameters = require './expand-uri-template-with-parameters'
 exampleToHttpPayloadPair = require './example-to-http-payload-pair'
+buildExpressHandler = require './build-express-handler'
 
 ut = require 'uri-template'
 winston = require 'winston'
 
 walker = (app, resourceGroups) ->
 
-  sendResponse = (responses) ->
-    (req, res) ->
-      # default response
-      response = responses[Object.keys(responses)[0]]
-
-      # try to find matching response based on PREFER header
-      if 'prefer' of req.headers
-        if req.headers['prefer'] of responses
-          response = responses[req.headers['prefer']]
-        else
-          winston.warn("[#{req.url}] Preferrered response #{req.headers['prefer']} not found. Falling back to #{response.status}")
-
-      for header, value of response.headers
-        headerName = value['name']
-        headerValue = value['value']
-        res.setHeader headerName, headerValue
-      res.setHeader 'Content-Length', Buffer.byteLength(response.body)
-      res.send response.status, response.body
-
-  responses = []
+  responses = {}
 
   for group in resourceGroups
     for resource in group['resources']
@@ -53,33 +35,32 @@ walker = (app, resourceGroups) ->
             for error in payload['errors']
               winston.error("[#{path}] #{error}")
 
-            responses.push {
-              method: action.method
-              path: path
-              responses: payload['pair']['responses']
+            if !responses[path]?
+              responses[path] = {}
+
+            actionMethod = action.method.toLowerCase()
+
+            if !responses[path][actionMethod]?
+              responses[path][actionMethod] = []
+
+            responses[path][actionMethod].push {
+              request: payload.pair.request
+              responses: payload.pair.responses
             }
 
+  paths = Object.keys responses
+
   #sort routes
-  responses.sort (a,b) ->
-    if (a.path > b.path)
+  paths.sort (a,b) ->
+    if (a > b)
        return -1
-    if (a.path < b.path)
+    if (a <= b)
       return 1
-    return 0
 
-  for response in responses
-    switch response.method
-      when 'GET'
-        app.get response.path, sendResponse(response.responses)
-      when 'POST'
-        app.post response.path, sendResponse(response.responses)
-      when 'PUT'
-        app.put response.path, sendResponse(response.responses)
-      when 'DELETE'
-        app.delete response.path, sendResponse(response.responses)
-      when 'PATCH'
-        app.patch response.path, sendResponse(response.responses)
-
-
+  for path in paths
+    pathMethods = responses[path]
+    for method, payloads of pathMethods
+      if app[method]?
+        app[method](path, buildExpressHandler(payloads))
 
 module.exports = walker
