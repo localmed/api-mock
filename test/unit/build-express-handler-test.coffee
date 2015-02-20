@@ -37,10 +37,18 @@ describe 'build-express-handler', () ->
       assert.isTrue expressHandler.comparePayloads.calledWith('bar', 'bar')
 
     it 'should check the query object', () ->
-      body = JSON.stringify {'foo': 'bar'}
+      body = {'foo': 'bar'}
       headers = {}
       expressHandler.matchBody {'query': body, 'body': ''}, body, {}
+      console.log expressHandler.comparePayloads
       assert.isTrue expressHandler.comparePayloads.calledWith(body, body)
+
+    it 'should also add parameter values', () ->
+      body = {'foo': 'bar'}
+      expected = {'foo2':'bar2'}
+      expressHandler.matchBody {'query': body, 'body': '', 'params': {'foo2': 'bar2'}}, {'foo': 'bar', 'foo2': 'bar2'}, {}
+      console.log expressHandler.comparePayloads
+      assert.isTrue expressHandler.comparePayloads.calledWith('bar2', 'bar2')
 
     it 'should fallback to a literal match on malformatted bodies', () ->
       sinon.stub winstonStub, 'warn', () ->
