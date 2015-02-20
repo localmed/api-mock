@@ -50,6 +50,11 @@ options = {
     'default': true,
     'boolean': true
   },
+  'delay': {
+    alias: "d",
+    description: "Add a delay (in ms) to your response times to mimic interacting with external APIs.\n",
+    'default': 0
+  },
   help: {
     description: "Show usage information.\n"
   },
