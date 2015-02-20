@@ -18,6 +18,8 @@ class ApiMock
     @configuration = config
     @app = express()
 
+    @app.use(require("body-parser").text())
+
     if @configuration.options['ssl-enable']
       sslSupport = new SslSupport(
         @app,

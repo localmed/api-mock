@@ -1,6 +1,6 @@
 {
   "name": "api-mock",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A mock server generated from your API Blueprint.",
   "author": "Evan Cordell <cordell.evan@gmail.com>",
   "main": "lib/api-mock.js",
@@ -13,9 +13,10 @@
     "prepublish": "scripts/prepublish"
   },
   "dependencies": {
-    "protagonist": "~0.17.1",
-    "optimist": "~0.6.0",
+    "body-parser": "^1.12.0",
     "express": "~3.4.7",
+    "optimist": "~0.6.0",
+    "protagonist": "~0.17.1",
     "uri-template": "~0.4.1",
     "winston": "~0.7.2"
   },
