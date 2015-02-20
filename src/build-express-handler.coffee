@@ -37,7 +37,7 @@ respond = (requestObject, responseObject, payload) ->
   return respondWithPayload(payload.responses[keys[0]])
 
 matchBody = (requestObject, body, headers) ->
-  if headers["content-type"] = "application/json"
+  if headers and headers["content-type"] == "application/json"
     try
       body = JSON.parse body
     catch e
@@ -45,15 +45,16 @@ matchBody = (requestObject, body, headers) ->
 
   try
     requestPayload = requestObject.body.toString()
-    if requestPayload.length == 0 or requestObject.headers['Content-Type'] != 'application/json'
+    if requestPayload.length == 0 or requestObject.headers['content-type'] != 'application/json'
       requestPayload = requestObject.query
     else
-      requestPayload JSON.parse requestPayload
+      requestPayload = JSON.parse requestPayload
 
     # Done parsing the request payload. Let's have some fun.
     return module.exports.comparePayloads(body, requestPayload)
   catch e
     # Literal match on body
+    winston.warn "Could not parse input body"
     return body.toString() == requestObject.body.toString()
 
 matchHeaders = (requestObject, headers) ->
@@ -61,14 +62,18 @@ matchHeaders = (requestObject, headers) ->
 
 buildExpressHandler = (payloads) ->
   return (request, response) ->
+    l = payloads.length
     for payload in payloads
-      if payload.request.body and !matchBody(request, payload.request.body, request.headers)
+      if payload.request and payload.request.body and !matchBody(request, payload.request.body, payload.request.headers)
         continue
-      if payload.request.headers and !matchHeaders(request, payload.request.headers)
+      if payload.request and payload.request.headers and !matchHeaders(request, payload.request.headers)
         continue
-      return respond(request, response, payload)
-    return respond(request, response, payloads[payloads.length -1])
+      return buildExpressHandler.respond(request, response, payload)
+    return buildExpressHandler.respond(request, response, payloads[l - 1])
 
 buildExpressHandler.comparePayloads = comparePayloads
+buildExpressHandler.matchBody = matchBody
+buildExpressHandler.matchHeaders = matchHeaders
+buildExpressHandler.respond = respond
 module.exports = buildExpressHandler
 
