@@ -73,6 +73,21 @@ describe 'ApiMock class', () ->
           assert.ok api_mock.configuration.options.port == 3005
           assert.notOk CorsSupportStub.called
 
+      describe 'with custom Access-Control-Allow-Headers', () ->
+
+        beforeEach ()->
+          configuration =
+            blueprintPath: './test/fixtures/single-get.apib',
+            options:
+              port: 3005
+              'custom-headers': 'x-custom-header'
+              'cors-disable': false
+
+        it 'should add custom header to configuration', () ->
+          api_mock = new ApiMock(configuration)
+          assert.ok api_mock.configuration.options['custom-headers'] == 'x-custom-header'
+          assert.ok CorsSupportStub.called
+
     describe 'with invalid configuration', () ->
 
       beforeEach ()->
