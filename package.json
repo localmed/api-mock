@@ -1,6 +1,6 @@
 {
   "name": "api-mock",
-  "version": "0.1.1",
+  "version": "0.2.1-0",
   "description": "A mock server generated from your API Blueprint.",
   "author": "Evan Cordell <cordell.evan@gmail.com>",
   "main": "lib/api-mock.js",
