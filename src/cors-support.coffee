@@ -1,12 +1,15 @@
 winston = require 'winston'
 
 class CorsSupport
-  constructor: (app) ->
+  constructor: (app, configuration) ->
 
     options =
       origin: '*'
       methods: 'GET, PUT, POST, PATCH, DELETE, TRACE, OPTIONS'
       headers: 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Referer, Prefer'
+
+    if configuration.headers
+      options.headers = options.headers + ', ' + configuration.headers
 
     app.all '*', (req, res, next) ->
       unless req.get('Origin')

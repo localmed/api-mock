@@ -28,7 +28,10 @@ class ApiMock
       )
 
     if !@configuration.options['cors-disable']
-      corsSupport = new CorsSupport @app
+      corsSupport = new CorsSupport(
+        @app,
+            headers: @configuration.options['custom-headers']
+      )
 
   run: () ->
     app = @app
