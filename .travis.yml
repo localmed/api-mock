@@ -3,8 +3,6 @@ node_js:
   - "5.4.0"
   - "4.1"
   - "4.0"
-  - "0.12"
-  - "0.11"
 compiler: clang-3.6
 env:
   - CXX=clang-3.6
