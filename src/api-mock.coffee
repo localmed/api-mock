@@ -40,7 +40,7 @@ class ApiMock
 
     # Get JSON representation of the blueprint file
     ast_json = ""
-    protagonist.parse data,  (error, result) =>
+    protagonist.parse data, {type: "ast"}, (error, result) =>
       if error? then throw error
       ast_json = result.ast
 
