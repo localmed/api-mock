@@ -1,6 +1,6 @@
 {
   "name": "api-mock",
-  "version": "0.2.2",
+  "version": "0.3.2",
   "description": "A mock server generated from your API Blueprint.",
   "author": "Evan Cordell <cordell.evan@gmail.com>",
   "main": "lib/api-mock.js",
@@ -13,11 +13,11 @@
     "prepublish": "scripts/prepublish"
   },
   "dependencies": {
-    "protagonist": "~0.19.0",
+    "protagonist": "~1.2.5",
     "optimist": "~0.6.0",
     "express": "~3.4.7",
-    "uri-template": "~0.4.1",
-    "winston": "~0.7.2"
+    "uri-template": "~1.0.0",
+    "winston": "~2.1.1"
   },
   "devDependencies": {
     "coffee-script": "1.6.3",
@@ -49,5 +49,5 @@
     "stub"
   ],
   "license": "MIT",
-  "engine": "node >= 0.10.18"
+  "engine": "node >= 4.0"
 }

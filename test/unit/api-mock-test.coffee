@@ -108,7 +108,7 @@ describe 'ApiMock class', () ->
               {}
             sinon.stub fsStub, 'readFileSync', (path, enc) ->
               {}
-            sinon.stub protagonistStub, 'parse', (data, callback) ->
+            sinon.stub protagonistStub, 'parse', (data, type, callback) ->
               result =
                 ast:
                   resourceGroups: [
@@ -139,7 +139,7 @@ describe 'ApiMock class', () ->
               throw new Error('Error starting server')
             sinon.stub fsStub, 'readFileSync', (path, enc) ->
               {}
-            sinon.stub protagonistStub, 'parse', (data, callback) ->
+            sinon.stub protagonistStub, 'parse', (data, type, callback) ->
               result =
                 ast:
                   resourceGroups: [
@@ -163,7 +163,7 @@ describe 'ApiMock class', () ->
             walkerStub.throws(new Error('Error walking routes'))
             sinon.stub fsStub, 'readFileSync', (path, enc) ->
               {}
-            sinon.stub protagonistStub, 'parse', (data, callback) ->
+            sinon.stub protagonistStub, 'parse', (data, type, callback) ->
               result =
                 ast:
                   resourceGroups: [
@@ -187,7 +187,7 @@ describe 'ApiMock class', () ->
         beforeEach () ->
           sinon.stub fsStub, 'readFileSync', (path, enc) ->
             {}
-          sinon.stub protagonistStub, 'parse', (data, callback) ->
+          sinon.stub protagonistStub, 'parse', (data, type, callback) ->
             callback(new Error('Error parsing blueprint'), null)
 
         afterEach () ->
@@ -208,8 +208,3 @@ describe 'ApiMock class', () ->
 
       it 'should throw an error', ()->
         assert.throws api_mock.run, 'Error reading file'
-
-
-
-
-
