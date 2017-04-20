@@ -1,4 +1,10 @@
-# API-Mock 
+# API-Mock
+
+[![Maintainers Wanted](https://img.shields.io/badge/maintainers-wanted-red.svg)](https://github.com/pickhardt/maintainers-wanted)
+
+**This project is no longer under active development and we're looking for a new maintainer (or owner). Please open an issue if you are interested in helping out.**
+
+---
 
 [![Build Status](https://travis-ci.org/localmed/api-mock.png?branch=master)](https://travis-ci.org/localmed/api-mock)
 [![Coverage Status](https://img.shields.io/coveralls/localmed/api-mock.svg)](https://coveralls.io/r/localmed/api-mock?branch=master)
