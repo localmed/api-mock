@@ -21,9 +21,4 @@ class CorsSupport
         else
           next()
 
-    winston.info "Enabled Cross-Origin-Resource-Sharing (CORS)"
-    winston.info "\tAllow-Origin: #{options.origin}"
-    winston.info "\tAllow-Methods: #{options.methods}"
-    winston.info "\tAllow-Headers: #{options.headers}"
-
 module.exports = CorsSupport
