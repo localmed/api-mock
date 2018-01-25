@@ -30,6 +30,8 @@ class ApiMock
     if !@configuration.options['cors-disable']
       corsSupport = new CorsSupport @app
 
+    @delay = @configuration.options['delay']
+
   run: () ->
     app = @app
 
@@ -46,7 +48,7 @@ class ApiMock
 
       # Walk AST, add routes to app
       try
-        walker app, ast_json['resourceGroups']
+        walker app, ast_json['resourceGroups'], @delay
       catch error
         throw error
 

@@ -6,7 +6,7 @@ exampleToHttpPayloadPair = require './example-to-http-payload-pair'
 ut = require 'uri-template'
 winston = require 'winston'
 
-walker = (app, resourceGroups) ->
+walker = (app, resourceGroups, delay) ->
 
   sendResponse = (responses) ->
     (req, res) ->
@@ -25,7 +25,9 @@ walker = (app, resourceGroups) ->
         headerValue = value['value']
         res.setHeader headerName, headerValue
       res.setHeader 'Content-Length', Buffer.byteLength(response.body)
-      res.send response.status, response.body
+      setTimeout ( ->
+        res.send response.status, response.body
+      ), delay
 
   responses = []
 

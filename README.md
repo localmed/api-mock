@@ -54,6 +54,8 @@ or
                                                                     [default: false]
       --color, -k         Colorize cli output.
                                                                      [default: true]
+      --delay, -d         Add a delay (in ms) to your response times to mimic interacting with external APIs.
+                                                                        [default: 0]
       --help              Show usage information.
 
       --version           Show version number.
